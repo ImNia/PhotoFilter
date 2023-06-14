@@ -1,5 +1,7 @@
 package com.delirium.photofilter
 
 interface Menu {
-    fun takeFoto()
+    fun openCameraScreen()
+    fun takePhoto()
+    fun savePhoto()
 }
