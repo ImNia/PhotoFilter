@@ -20,11 +20,6 @@ class EditorPhoto() : ComponentActivity() {
         val intent = getIntent()
         val uri = Uri.parse(intent.getStringExtra("URI_IMAGE"))
 
-        /*val image: Bitmap = intent.getParcelableExtra("image") ?: BitmapFactory.decodeResource(
-            getResources(),
-            R.drawable.test
-        )*/
-
         val image = getContactBitmapFromURI(context = baseContext, uri = uri)
             ?: BitmapFactory.decodeResource(
                 getResources(),

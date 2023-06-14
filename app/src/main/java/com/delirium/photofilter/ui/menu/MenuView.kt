@@ -35,14 +35,14 @@ import com.delirium.photofilter.ui.theme.GrayColor
 import com.delirium.photofilter.ui.theme.LightGrayColor
 
 @Composable
-fun MenuButton(viewModel: MenuViewModel) {
+fun MenuButton(view: MainActivity) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = { viewModel.openCameraScreen() },
+            onClick = { view.openCameraScreen() },
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
@@ -62,7 +62,7 @@ fun MenuButton(viewModel: MenuViewModel) {
         }
 
         Button(
-            onClick = { viewModel.getPhotoFromStorage() },
+            onClick = { view.getPhotoFromStorage() },
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
@@ -84,7 +84,7 @@ fun MenuButton(viewModel: MenuViewModel) {
 }
 
 @Composable
-fun CameraScreen(viewModel: MenuViewModel, imageCapture: ImageCapture?) {
+fun CameraScreen(view: MainActivity, imageCapture: ImageCapture?) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -102,7 +102,7 @@ fun CameraScreen(viewModel: MenuViewModel, imageCapture: ImageCapture?) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(
-                onClick = { viewModel.takePhoto() },
+                onClick = { view.takePhoto() },
                 shape = MaterialTheme.shapes.extraLarge,
                 modifier = Modifier
                     .fillMaxHeight()
@@ -111,7 +111,7 @@ fun CameraScreen(viewModel: MenuViewModel, imageCapture: ImageCapture?) {
                 Text(text = "Make Photo")
             }
             TextButton(
-                onClick = { viewModel.savePhoto() },
+                onClick = { /*view.savePhoto()*/ },
                 shape = MaterialTheme.shapes.extraLarge,
                 modifier = Modifier
                     .fillMaxHeight()
