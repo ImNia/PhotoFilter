@@ -26,18 +26,22 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.camera.core.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.TextButton
 import com.delirium.photofilter.R
-import com.delirium.photofilter.ui.theme.GrayColor
-import com.delirium.photofilter.ui.theme.LightGrayColor
+import com.delirium.photofilter.ui.theme.BackgroundButtonColor
+import com.delirium.photofilter.ui.theme.BackgroundScreenColor
+import com.delirium.photofilter.ui.theme.TextOnButtonColor
 
 @Composable
 fun MenuButton(view: MainActivity) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundScreenColor),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -46,7 +50,7 @@ fun MenuButton(view: MainActivity) {
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
-                containerColor = LightGrayColor,
+                containerColor = BackgroundButtonColor,
             ),
             modifier = Modifier
                 .fillMaxSize()
@@ -57,7 +61,8 @@ fun MenuButton(view: MainActivity) {
                 text = stringResource(id = R.string.make_photo),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
-                color = GrayColor,
+                color = TextOnButtonColor,
+
             )
         }
 
@@ -66,7 +71,7 @@ fun MenuButton(view: MainActivity) {
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
-                containerColor = LightGrayColor,
+                containerColor = BackgroundButtonColor,
             ),
             modifier = Modifier
                 .fillMaxSize()
@@ -75,9 +80,10 @@ fun MenuButton(view: MainActivity) {
         ) {
             Text(
                 text = stringResource(id = R.string.take_photo_storage),
+                lineHeight = 50.sp,
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
-                color = GrayColor,
+                color = TextOnButtonColor,
             )
         }
     }
@@ -86,7 +92,7 @@ fun MenuButton(view: MainActivity) {
 @Composable
 fun CameraScreen(view: MainActivity, imageCapture: ImageCapture?) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(BackgroundScreenColor)
     ) {
         CameraPreview(
             modifier = Modifier
@@ -102,22 +108,22 @@ fun CameraScreen(view: MainActivity, imageCapture: ImageCapture?) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(
+                onClick = { view.menuScreen() },
+                shape = MaterialTheme.shapes.extraLarge,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+            ) {
+                Text(text = "Close screen")
+            }
+            TextButton(
                 onClick = { view.takePhoto() },
                 shape = MaterialTheme.shapes.extraLarge,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
             ) {
-                Text(text = "Make Photo")
-            }
-            TextButton(
-                onClick = { /*view.savePhoto()*/ },
-                shape = MaterialTheme.shapes.extraLarge,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            ) {
-                Text(text = "Save Photo")
+                Text(text = "Make And Save Photo")
             }
         }
     }
@@ -166,13 +172,6 @@ fun CameraPreview(
             }, ContextCompat.getMainExecutor(context))
 
             previewView
-        })
+        }
+    )
 }
-
-/*@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PhotoFilterTheme {
-        MenuButton(MenuViewModel())
-    }
-}*/

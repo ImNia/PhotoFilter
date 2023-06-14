@@ -13,23 +13,27 @@ import com.delirium.photofilter.ui.theme.PhotoFilterTheme
 import java.io.FileNotFoundException
 
 
-class EditorPhoto() : ComponentActivity() {
+class EditorActivity() : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val intent = getIntent()
+        val intent = intent
         val uri = Uri.parse(intent.getStringExtra("URI_IMAGE"))
 
         val image = getContactBitmapFromURI(context = baseContext, uri = uri)
             ?: BitmapFactory.decodeResource(
-                getResources(),
-                R.drawable.test
+                resources,
+                R.drawable.image
             )
         setContent {
             PhotoFilterTheme() {
-                Editor(image = image.asImageBitmap())
+                Editor(image = image.asImageBitmap(), this)
             }
         }
+    }
+
+    fun closeScreen() {
+        finish()
     }
 
     private fun getContactBitmapFromURI(context: Context, uri: Uri?): Bitmap? {

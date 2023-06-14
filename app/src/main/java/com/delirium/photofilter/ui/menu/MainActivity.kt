@@ -18,7 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.delirium.photofilter.Creator
-import com.delirium.photofilter.EditorPhoto
+import com.delirium.photofilter.EditorActivity
 import com.delirium.photofilter.MainMenu
 import com.delirium.photofilter.ui.theme.PhotoFilterTheme
 
@@ -49,6 +49,10 @@ class MainActivity : ComponentActivity(), MainMenu {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuScreen()
+    }
+
+    fun menuScreen() {
         setContent {
             PhotoFilterTheme {
                 Surface(
@@ -81,7 +85,7 @@ class MainActivity : ComponentActivity(), MainMenu {
     }
 
     override fun savePhoto(imageUri: Uri) {
-        val intent = Intent(this, EditorPhoto::class.java)
+        val intent = Intent(this, EditorActivity::class.java)
         intent.putExtra("URI_IMAGE", imageUri.toString())
         startActivity(intent)
     }
@@ -102,7 +106,7 @@ class MainActivity : ComponentActivity(), MainMenu {
 
     override fun getPhotoFromStorage(imageUri: Uri) {
         Log.d(TAG, "$imageUri")
-        val intent = Intent(this, EditorPhoto::class.java)
+        val intent = Intent(this, EditorActivity::class.java)
         intent.putExtra("URI_IMAGE", imageUri.toString())
         startActivity(intent)
     }
