@@ -62,7 +62,7 @@ fun MenuButton(viewModel: MenuViewModel) {
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { viewModel.getPhotoFromStorage() },
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
@@ -111,7 +111,7 @@ fun CameraScreen(viewModel: MenuViewModel, imageCapture: ImageCapture?) {
                 Text(text = "Make Photo")
             }
             TextButton(
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.savePhoto() },
                 shape = MaterialTheme.shapes.extraLarge,
                 modifier = Modifier
                     .fillMaxHeight()
