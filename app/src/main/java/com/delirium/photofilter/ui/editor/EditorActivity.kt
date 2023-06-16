@@ -1,19 +1,23 @@
-package com.delirium.photofilter
+package com.delirium.photofilter.ui.editor
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.delirium.photofilter.ui.editor.FilterEditorView
+import com.delirium.photofilter.Creator
+import com.delirium.photofilter.R
+import com.delirium.photofilter.SaveMenu
 import com.delirium.photofilter.ui.theme.PhotoFilterTheme
 import com.uvstudio.him.photofilterlibrary.PhotoFilter
 
-class EditorActivity() : ComponentActivity() {
+class EditorActivity() : ComponentActivity(), SaveMenu {
     private val photoFilter = PhotoFilter()
     private var photoFilterList: List<Pair<Int, Bitmap>> = listOf()
+    private val presenter = Creator.provideEditorPresentation(this, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,7 @@ class EditorActivity() : ComponentActivity() {
         editorScreen(image)
     }
 
-    private fun editorScreen(image: Bitmap) {
+    fun editorScreen(image: Bitmap) {
         setContent {
             PhotoFilterTheme() {
                 FilterEditorView(image = image, filters = photoFilterList, view = this)
@@ -40,6 +44,28 @@ class EditorActivity() : ComponentActivity() {
 
     fun closeScreen() {
         finish()
+    }
+
+    fun openSaveScreen(image: Bitmap) {
+        setContent {
+            PhotoFilterTheme() {
+                SaveScreen(view = this, image)
+            }
+        }
+    }
+
+    fun savePhoto(image: Bitmap) {
+        presenter.savePhotoInStorage(image = image)
+        closeScreen()
+    }
+    fun sendMessage() {
+        Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.theme_message))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.text_message))
+            startActivity(this)
+        }
+        closeScreen()
     }
 
     fun changeFilter(index: Int) {

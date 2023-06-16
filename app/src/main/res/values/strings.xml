@@ -3,4 +3,14 @@
 
     <string name="make_photo">Сделать фото</string>
     <string name="take_photo_storage">Использовать фото из хранилища телефона</string>
+
+    <string name="export_photo">Экспорт изображения</string>
+    <string name="send_message_photo">Отправить</string>
+    <string name="save_on_phone_photo">Сохранить</string>
+
+    <string name="close_screen">Закрыть</string>
+    <string name="return_on_screen">Назад</string>
+
+    <string name="theme_message">Фото после обработки</string>
+    <string name="text_message">Посмотри как выглядит фото после обработки!!</string>
 </resources>

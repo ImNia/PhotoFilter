@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.delirium.photofilter.EditorActivity
 import com.delirium.photofilter.ui.theme.BackgroundScreenColor
 
 @Composable
@@ -84,6 +83,33 @@ fun FilterEditorView(image: Bitmap, filters: List<Pair<Int, Bitmap>>, view: Edit
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextButton(
+                onClick = { view.closeScreen() },
+                shape = MaterialTheme.shapes.extraLarge,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+            ) {
+                Text(text = "Close screen")
+            }
+            TextButton(
+                onClick = { view.openSaveScreen(image) },
+                shape = MaterialTheme.shapes.extraLarge,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+            ) {
+                Text(text = "Save")
+            }
+        }
         Image(
             bitmap = image.asImageBitmap(),
             contentDescription = "",

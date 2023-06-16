@@ -2,6 +2,8 @@ package com.delirium.photofilter.storage.impl
 
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
@@ -15,7 +17,8 @@ import com.delirium.photofilter.storage.api.StorageInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class StorageInteractorImpl(activity: ComponentActivity): StorageInteractor {
+
+class StorageInteractorImpl(activity: ComponentActivity) : StorageInteractor {
     private var consumer: StorageInteractor.StorageConsumer? = null
     private val activityResultForPhotoFromStorage =
         activity.registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -31,7 +34,11 @@ class StorageInteractorImpl(activity: ComponentActivity): StorageInteractor {
         activityResultForPhotoFromStorage.launch(arrayOf("image/*"))
     }
 
-    override fun savePhoto(imageCapture: ImageCapture?, context: Context, consumer: StorageInteractor.StorageConsumer) {
+    override fun savePhotoFromCamera(
+        imageCapture: ImageCapture?,
+        context: Context,
+        consumer: StorageInteractor.StorageConsumer
+    ) {
         if (imageCapture == null) {
             val msg = "Can't take a photo, please restart app"
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
@@ -74,6 +81,27 @@ class StorageInteractorImpl(activity: ComponentActivity): StorageInteractor {
                 }
             }
         )
+    }
+
+    override fun savePhoto(context: Context, bitmap: Bitmap) {
+        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+            .format(System.currentTimeMillis())
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+            }
+        }
+
+        val resolver = context.contentResolver
+        val uri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        val msg = if (uri != null) {
+            "Photo save succeeded: $uri"
+        } else {
+            "Photo save failed. Try again."
+        }
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

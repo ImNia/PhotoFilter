@@ -2,6 +2,7 @@ package com.delirium.photofilter
 
 import androidx.activity.ComponentActivity
 import com.delirium.photofilter.presentation.MenuPresenter
+import com.delirium.photofilter.presentation.EditorPresenter
 import com.delirium.photofilter.storage.api.StorageInteractor
 import com.delirium.photofilter.storage.impl.StorageInteractorImpl
 
@@ -12,5 +13,9 @@ object Creator {
 
     fun provideMenuPresentation(activity: ComponentActivity, menu: MainMenu): MenuPresenter {
         return MenuPresenter(activity, menu)
+    }
+
+    fun provideEditorPresentation(activity: ComponentActivity, menu: SaveMenu): EditorPresenter {
+        return EditorPresenter(activity, menu)
     }
 }

@@ -18,7 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.delirium.photofilter.Creator
-import com.delirium.photofilter.EditorActivity
+import com.delirium.photofilter.ui.editor.EditorActivity
 import com.delirium.photofilter.MainMenu
 import com.delirium.photofilter.ui.theme.PhotoFilterTheme
 

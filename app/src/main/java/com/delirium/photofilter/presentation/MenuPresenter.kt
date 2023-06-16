@@ -22,7 +22,7 @@ class MenuPresenter(activity: ComponentActivity, private val menu: MainMenu) {
     }
 
     fun savePhotoInStorage(imageCapture: ImageCapture?, context: Context) {
-        storageInteractor.savePhoto(
+        storageInteractor.savePhotoFromCamera(
             imageCapture = imageCapture,
             context = context,
             object : StorageInteractor.StorageConsumer {
