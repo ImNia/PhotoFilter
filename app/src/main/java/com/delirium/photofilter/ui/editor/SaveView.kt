@@ -33,7 +33,7 @@ fun SaveScreen(view: EditorActivity, image: Bitmap) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = { view.sendMessage() },
+            onClick = { view.sendMessage(image) },
             contentPadding = PaddingValues(20.dp),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(

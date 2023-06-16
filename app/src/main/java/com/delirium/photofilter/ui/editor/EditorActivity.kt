@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.delirium.photofilter.Creator
@@ -13,6 +14,8 @@ import com.delirium.photofilter.R
 import com.delirium.photofilter.SaveMenu
 import com.delirium.photofilter.ui.theme.PhotoFilterTheme
 import com.uvstudio.him.photofilterlibrary.PhotoFilter
+import java.io.ByteArrayOutputStream
+
 
 class EditorActivity() : ComponentActivity(), SaveMenu {
     private val photoFilter = PhotoFilter()
@@ -24,7 +27,7 @@ class EditorActivity() : ComponentActivity(), SaveMenu {
         val intent = intent
         val uri = Uri.parse(intent.getStringExtra("URI_IMAGE"))
 
-        val image = getContactBitmapFromURI(context = baseContext, uri = uri)
+        val image = convertUriToBitmap(context = baseContext, uri = uri)
             ?: BitmapFactory.decodeResource(
                 resources,
                 R.drawable.image
@@ -58,11 +61,12 @@ class EditorActivity() : ComponentActivity(), SaveMenu {
         presenter.savePhotoInStorage(image = image)
         closeScreen()
     }
-    fun sendMessage() {
+    fun sendMessage(image: Bitmap) {
         Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.theme_message))
+            action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, getString(R.string.text_message))
+            putExtra(Intent.EXTRA_STREAM, convertBitmapToUri(applicationContext, image))
+            type = "image/jpeg"
             startActivity(this)
         }
         closeScreen()
@@ -89,9 +93,17 @@ class EditorActivity() : ComponentActivity(), SaveMenu {
         )
     }
 
-    private fun getContactBitmapFromURI(context: Context, uri: Uri?): Bitmap? {
+    private fun convertUriToBitmap(context: Context, uri: Uri?): Bitmap? {
         val input = context.contentResolver.openInputStream(uri!!) ?: return null
         return BitmapFactory.decodeStream(input)
+    }
+
+    private fun convertBitmapToUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 
     companion object {
