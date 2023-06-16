@@ -69,7 +69,6 @@ class EditorActivity() : ComponentActivity(), SaveMenu {
             type = "image/jpeg"
             startActivity(this)
         }
-        closeScreen()
     }
 
     fun changeFilter(index: Int) {
